@@ -157,7 +157,8 @@ class PushToPasteGG(PushTo):
             "Content-Type": "application/json",
             "User-Agent": utils.USER_AGENT,
         }
-        data = json.dumps({"content": {"format": "text", "value": content}}).encode("UTF8")
+        data = json.dumps({"description":"An updated gist description","files":{"all.yaml":{"content":content}}}).encode("UTF8")
+        #data = json.dumps({"content": {"format": "text", "value": content}}).encode("UTF8")
         url = f"{self.api_address}/{folderid}/files/{fileid}"
 
         return url, data, headers
