@@ -77,7 +77,6 @@ class PushTo(object):
                 return False
 
         try:
-            logger.info(data)
             request = urllib.request.Request(url=url, data=data, headers=headers, method=self.method)
             response = urllib.request.urlopen(request, timeout=60, context=utils.CTX)
             if self._is_success(response):
@@ -90,9 +89,7 @@ class PushTo(object):
                     )
                 )
                 return False
-        except urllib.error.HTTPError as e:
-            logger.error(f"HTTP Error: {e.code}")
-            logger.error(f"Response: {e.read().decode('utf-8')}")
+
         except Exception:
             self._error_handler(group=group)
 
@@ -158,7 +155,7 @@ class PushToPasteGG(PushTo):
             "Content-Type": "application/json",
             "User-Agent": utils.USER_AGENT,
         }
-        data = json.dumps({"description":"An updated gist description","files":{"all.yaml":{"content":content}}}).encode("UTF8")
+        data = json.dumps({"content": {"format": "text", "value": content}}).encode("UTF8")
         url = f"{self.api_address}/{folderid}/files/{fileid}"
 
         return url, data, headers
