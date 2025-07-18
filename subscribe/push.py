@@ -89,7 +89,9 @@ class PushTo(object):
                     )
                 )
                 return False
-
+        except urllib.error.HTTPError as e:
+            logger.error(f"HTTP Error: {e.code}")
+            logger.error(f"Response: {e.read().decode('utf-8')}")
         except Exception:
             self._error_handler(group=group)
 
